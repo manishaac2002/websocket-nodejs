@@ -1,3 +1,5 @@
+// server side
+// imports
 const express = require("express")
 const http = require("http")
 const socket = require("socket.io")
@@ -7,6 +9,14 @@ const server=http.createServer(app)
 const io=socket(server)
 
 let users =[]
+
+// channels 
+const message ={
+    general:[],
+    Random:[],
+    jokes:[],
+    javascript:[]
+}
 
 // user connection established
 io.connection('',()=>{
@@ -20,7 +30,11 @@ io.connection('',()=>{
         console.log("user joined");
     })
 
-    socket.io
+    // call back 
+    socket.on("join room",(roomName,callBack)=>{
+        socket.join(roomName)
+        callBack(message[roomName])
+    })
 
 })
 
